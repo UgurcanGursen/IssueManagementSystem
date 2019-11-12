@@ -1,6 +1,7 @@
 package com.ugurcangursen.issuemanagement.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,44 +20,44 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "issue")
 public class Issue extends BaseEntity {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	@Column(name = "description",length = 1000)
 	private String description;
-	
+
 	@Column(name = "details",length = 4000)
 	private String details;
-	
+
 	@Column(name = "date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-	
+
 	@Column(name = "issue_status")
 	@Enumerated(EnumType.STRING)
 	private IssueStatus issueStatus;
-	
+
 	@JoinColumn(name = "assignee_user_id")
 	@ManyToOne(optional = true,fetch = FetchType.LAZY)
 	private User Assignee;
-	
+
 	@JoinColumn(name = "project_id")
 	@ManyToOne(optional = true,fetch = FetchType.LAZY)
 	private Project project;
-	
+
 	public Issue () {
-		
+
 	}
 
 	public Issue(Long id, String description, String details, Date date, IssueStatus issueStatus, User assignee,
-			Project project) {
+				 Project project) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -186,10 +187,6 @@ public class Issue extends BaseEntity {
 			return false;
 		return true;
 	}
-
-	
-	
-	
 }
 
 

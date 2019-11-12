@@ -11,8 +11,8 @@ import com.ugurcangursen.issuemanagement.dto.ProjectDto;
 import com.ugurcangursen.issuemanagement.util.TPage;
 
 public interface IssueService {
-	
-	IssueDto save(IssueDto issue);
+
+    IssueDto save(IssueDto issue);
 
     IssueDto getById(Long id);
 

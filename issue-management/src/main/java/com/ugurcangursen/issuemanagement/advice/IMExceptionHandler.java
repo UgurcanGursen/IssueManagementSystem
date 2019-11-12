@@ -22,7 +22,7 @@ public class IMExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<?> handleExceptions (Exception ex,WebRequest request) {
-		LOGGER.error("ControllerAdvice -> ExceptionHandler ->  " , ex , request);
+		LOGGER.error("ControllerAdvice -> ExceptionHandler -> ", ex , request);
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(),ex.getMessage());
 		return new ResponseEntity<> (exceptionResponse,HttpStatus.EXPECTATION_FAILED);
 	}

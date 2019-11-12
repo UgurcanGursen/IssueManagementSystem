@@ -5,13 +5,7 @@
   "Project Name should be (min) 4 char": "Proje Adı min 4 karakter olmalı",
   "Project Code": "Proje Kodu",
   "Project Name": "Proje Adı",
-
-  "TableColms": {
-    "Colms": {
-      "ProjectName": "Proje Adı",
-      "ProjectCode": "Proje Kodu"
-    }
-  }
+  "Issue List" : "Issue Adı"
 
 }
 
