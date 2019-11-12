@@ -1,6 +1,7 @@
 package com.ugurcangursen.issuemanagement.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,6 +44,9 @@ public class IssueHistory extends BaseEntity {
 	@Column(name = "issue_status")
 	@Enumerated(EnumType.STRING)
 	private IssueStatus issueStatus;
+
+	@Column(name = "details", length = 4000)
+	private String details;
 	
 	@JoinColumn(name = "assignee_user_id")
 	@ManyToOne(optional = true,fetch = FetchType.LAZY)
@@ -52,7 +56,7 @@ public class IssueHistory extends BaseEntity {
 		
 	}
 
-	public IssueHistory(Long id, Issue issue, String description, Date date, IssueStatus issueStatus, User assignee) {
+	public IssueHistory(Long id, Issue issue, String description, Date date, IssueStatus issueStatus, User assignee,String details) {
 		super();
 		this.id = id;
 		this.issue = issue;
@@ -60,64 +64,21 @@ public class IssueHistory extends BaseEntity {
 		this.date = date;
 		this.issueStatus = issueStatus;
 		this.assignee = assignee;
+		this.details = details;
 	}
 
 	@Override
 	public String toString() {
 		return "IssueHistory [id=" + id + ", issue=" + issue + ", description=" + description + ", date=" + date
-				+ ", issueStatus=" + issueStatus + ", assignee=" + assignee + "]";
+				+ ", issueStatus=" + issueStatus + ", assignee=" + assignee + ", details=" + details + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((assignee == null) ? 0 : assignee.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((issue == null) ? 0 : issue.hashCode());
-		result = prime * result + ((issueStatus == null) ? 0 : issueStatus.hashCode());
-		return result;
+	public String getDetails() {
+		return details;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		IssueHistory other = (IssueHistory) obj;
-		if (assignee == null) {
-			if (other.assignee != null)
-				return false;
-		} else if (!assignee.equals(other.assignee))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (issue == null) {
-			if (other.issue != null)
-				return false;
-		} else if (!issue.equals(other.issue))
-			return false;
-		if (issueStatus != other.issueStatus)
-			return false;
-		return true;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 	public Long getId() {
@@ -168,6 +129,22 @@ public class IssueHistory extends BaseEntity {
 		this.assignee = assignee;
 	}
 
-	
-	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof IssueHistory)) return false;
+		IssueHistory that = (IssueHistory) o;
+		return getId().equals(that.getId()) &&
+				getIssue().equals(that.getIssue()) &&
+				getDescription().equals(that.getDescription()) &&
+				getDate().equals(that.getDate()) &&
+				getIssueStatus() == that.getIssueStatus() &&
+				getDetails().equals(that.getDetails()) &&
+				getAssignee().equals(that.getAssignee());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getIssue(), getDescription(), getDate(), getIssueStatus(), getDetails(), getAssignee());
+	}
 }

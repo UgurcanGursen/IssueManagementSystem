@@ -5,6 +5,7 @@ import {IssueRoutingModule} from './issue.routing.module';
 import {IssueService} from '../../services/shared/issue.service';
 import {SharedModule} from '../../shared/shared.module';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {IssueDetailComponent} from "./issue-detail/issue-detail.component";
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
     NgxDatatableModule
   ],
   providers: [IssueService],
-  declarations: [IssueComponent]
+  declarations: [IssueComponent, IssueDetailComponent]
 })
 export class IssueModule {
 }

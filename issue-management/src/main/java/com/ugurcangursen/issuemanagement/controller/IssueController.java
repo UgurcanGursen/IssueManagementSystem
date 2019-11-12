@@ -1,5 +1,6 @@
 package com.ugurcangursen.issuemanagement.controller;
 
+import com.ugurcangursen.issuemanagement.dto.IssueDetailDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,13 @@ public class IssueController {
     public ResponseEntity<IssueDto> getById(@PathVariable(value = "id",required = true) Long id) {
         IssueDto projectDto = issueServiceImpl.getById(id);
         return ResponseEntity.ok(projectDto);
+    }
+
+    @GetMapping("/detail/{id}")
+    @ApiOperation(value = "Get By Id Operation", response = IssueDto.class)
+    public ResponseEntity<IssueDetailDto> getByIdWithDetails(@PathVariable(value = "id", required = true) Long id) {
+        IssueDetailDto detailDto = issueServiceImpl.getByIdWithDetails(id);
+        return ResponseEntity.ok(detailDto);
     }
 
     @PostMapping

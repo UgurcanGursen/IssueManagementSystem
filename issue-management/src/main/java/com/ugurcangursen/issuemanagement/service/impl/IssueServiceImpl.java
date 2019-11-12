@@ -1,8 +1,10 @@
 package com.ugurcangursen.issuemanagement.service.impl;
 
 
+import com.ugurcangursen.issuemanagement.dto.IssueDetailDto;
+import com.ugurcangursen.issuemanagement.dto.IssueHistoryDto;
+import com.ugurcangursen.issuemanagement.service.IssueHistoryService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,12 @@ import java.util.List;
 public class IssueServiceImpl implements IssueService {
 
     private final IssueRepository issueRepository;
+    private final IssueHistoryService issueHistoryService;
     private final ModelMapper modelMapper;
 
-    public IssueServiceImpl(IssueRepository issueRepository, ModelMapper modelMapper) {
+    public IssueServiceImpl(IssueRepository issueRepository, IssueHistoryService issueHistoryService, ModelMapper modelMapper) {
         this.issueRepository = issueRepository;
+        this.issueHistoryService = issueHistoryService;
         this.modelMapper = modelMapper;
     }
 
@@ -48,6 +52,14 @@ public class IssueServiceImpl implements IssueService {
     public IssueDto getById(Long id) {
         Issue issue = issueRepository.getOne(id);
         return modelMapper.map(issue, IssueDto.class);
+    }
+
+    public IssueDetailDto getByIdWithDetails(Long id) {
+        Issue issue = issueRepository.getOne(id);
+        IssueDetailDto detailDto = modelMapper.map(issue, IssueDetailDto.class);
+        List<IssueHistoryDto> issueHistoryDtos = issueHistoryService.getByIssueId(issue.getId());
+        detailDto.setIssueHistories(issueHistoryDtos);
+        return detailDto;
     }
 
     @Override
