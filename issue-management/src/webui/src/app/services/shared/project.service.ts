@@ -13,13 +13,24 @@ export class ProjectService {
   constructor(private apiService: ApiService) {
   }
 
+  getAllPageable(page) : Observable<any>{
+    return this.apiService.get(this.PROJECT_PATH+'/pagination',page).pipe(map(
+      res =>{
+        if(res){
+          return res;
+        }else{
+          return {};
+        }
+      }
+    ));
+  }
+
   getAll() : Observable<any>{
     return this.apiService.get(this.PROJECT_PATH).pipe(map(
       res =>{
         if(res){
           return res;
         }else{
-          console.log(res);
           return {};
         }
       }
