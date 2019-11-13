@@ -1,6 +1,7 @@
 package com.ugurcangursen.issuemanagement.dto;
 
 import java.util.Date;
+import java.util.Objects;
 
 
 import com.ugurcangursen.issuemanagement.entity.IssueStatus;
@@ -23,16 +24,14 @@ public class IssueDto {
     private UserDto assignee;
     @ApiModelProperty(required = true, value = "Project")
     private ProjectDto project;
+    private Long projectId;
 
 
     public IssueDto() {
 
     }
 
-
-    public IssueDto(Long id, String description, String details, Date date, IssueStatus issueStatus, UserDto assignee,
-                    ProjectDto project) {
-        super();
+    public IssueDto(Long id, String description, String details, Date date, IssueStatus issueStatus, UserDto assignee, ProjectDto project, Long projectId) {
         this.id = id;
         this.description = description;
         this.details = details;
@@ -40,143 +39,104 @@ public class IssueDto {
         this.issueStatus = issueStatus;
         this.assignee = assignee;
         this.project = project;
+        this.projectId = projectId;
     }
-
-
-    @Override
-    public String toString() {
-        return "IssueDto [id=" + id + ", description=" + description + ", details=" + details + ", date=" + date
-                + ", issueStatus=" + issueStatus + ", assignee=" + assignee + ", project=" + project + "]";
-    }
-
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((assignee == null) ? 0 : assignee.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((details == null) ? 0 : details.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((issueStatus == null) ? 0 : issueStatus.hashCode());
-        result = prime * result + ((project == null) ? 0 : project.hashCode());
-        return result;
-    }
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        IssueDto other = (IssueDto) obj;
-        if (assignee == null) {
-            if (other.assignee != null)
-                return false;
-        } else if (!assignee.equals(other.assignee))
-            return false;
-        if (date == null) {
-            if (other.date != null)
-                return false;
-        } else if (!date.equals(other.date))
-            return false;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (details == null) {
-            if (other.details != null)
-                return false;
-        } else if (!details.equals(other.details))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        if (issueStatus != other.issueStatus)
-            return false;
-        if (project == null) {
-            if (other.project != null)
-                return false;
-        } else if (!project.equals(other.project))
-            return false;
-        return true;
-    }
-
 
     public Long getId() {
         return id;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getDescription() {
         return description;
     }
 
-
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getDetails() {
         return details;
     }
 
-
     public void setDetails(String details) {
         this.details = details;
     }
-
 
     public Date getDate() {
         return date;
     }
 
-
     public void setDate(Date date) {
         this.date = date;
     }
-
 
     public IssueStatus getIssueStatus() {
         return issueStatus;
     }
 
-
     public void setIssueStatus(IssueStatus issueStatus) {
-        this.issueStatus= issueStatus;
+        this.issueStatus = issueStatus;
     }
-
 
     public UserDto getAssignee() {
         return assignee;
     }
 
-
     public void setAssignee(UserDto assignee) {
         this.assignee = assignee;
     }
-
 
     public ProjectDto getProject() {
         return project;
     }
 
-
     public void setProject(ProjectDto project) {
         this.project = project;
     }
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IssueDto)) return false;
+        IssueDto issueDto = (IssueDto) o;
+        return getId().equals(issueDto.getId()) &&
+                getDescription().equals(issueDto.getDescription()) &&
+                getDetails().equals(issueDto.getDetails()) &&
+                getDate().equals(issueDto.getDate()) &&
+                getIssueStatus() == issueDto.getIssueStatus() &&
+                getAssignee().equals(issueDto.getAssignee()) &&
+                getProject().equals(issueDto.getProject()) &&
+                getProjectId().equals(issueDto.getProjectId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDescription(), getDetails(), getDate(), getIssueStatus(), getAssignee(), getProject(), getProjectId());
+    }
+
+    @Override
+    public String toString() {
+        return "IssueDto{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", details='" + details + '\'' +
+                ", date=" + date +
+                ", issueStatus=" + issueStatus +
+                ", assignee=" + assignee +
+                ", project=" + project +
+                ", projectId=" + projectId +
+                '}';
+    }
 }

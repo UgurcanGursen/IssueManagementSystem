@@ -4,6 +4,7 @@ package com.ugurcangursen.issuemanagement.service.impl;
 import com.ugurcangursen.issuemanagement.dto.IssueDetailDto;
 import com.ugurcangursen.issuemanagement.dto.IssueHistoryDto;
 import com.ugurcangursen.issuemanagement.dto.IssueUpdateDto;
+import com.ugurcangursen.issuemanagement.entity.IssueStatus;
 import com.ugurcangursen.issuemanagement.entity.User;
 import com.ugurcangursen.issuemanagement.repository.ProjectRepository;
 import com.ugurcangursen.issuemanagement.repository.UserRepository;
@@ -21,6 +22,7 @@ import com.ugurcangursen.issuemanagement.util.TPage;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,13 +46,13 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public IssueDto save(IssueDto issue) {
         // Bussiness Logic
+        issue.setDate(new Date());
+        issue.setIssueStatus(IssueStatus.OPEN);
 
-        if (issue.getDate() == null) {
-            throw new IllegalArgumentException("Issue Date cannot be null");
-        }
 
         Issue issueEntity = modelMapper.map(issue, Issue.class);
 
+        issueEntity.setProject(projectRepository.getOne(issue.getProjectId()));
         issueEntity = issueRepository.save(issueEntity);
 
         issue.setId(issueEntity.getId());

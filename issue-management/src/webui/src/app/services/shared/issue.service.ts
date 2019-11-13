@@ -41,8 +41,8 @@ export class IssueService{
     ));
   }
 
-  createIssue(project) : Observable<any>{
-    return this.apiService.post(this.ISSUE_PATH,project).pipe(map(
+  createIssue(issue) : Observable<any>{
+    return this.apiService.post(this.ISSUE_PATH,issue).pipe(map(
       res =>{
         if(res){
           return res;
@@ -54,8 +54,8 @@ export class IssueService{
     ));
   }
 
-  updateIssue(project) : Observable<any>{
-    return this.apiService.put(this.ISSUE_PATH+ '/'+ project.id ,project).pipe(map(
+  updateIssue(issue) : Observable<any>{
+    return this.apiService.put(this.ISSUE_PATH+ '/'+ issue.id ,issue).pipe(map(
       res =>{
         if(res){
           return res;
