@@ -24,6 +24,8 @@ import {ErrorInterceptor} from "./security/authentication.interceptor";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthenticationService} from "./security/authentication.service";
 import {AuthGuard} from "./security/auth.guard";
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 export const createTranslateLoader = (http: HttpClient) => {
@@ -37,7 +39,9 @@ export const createTranslateLoader = (http: HttpClient) => {
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
