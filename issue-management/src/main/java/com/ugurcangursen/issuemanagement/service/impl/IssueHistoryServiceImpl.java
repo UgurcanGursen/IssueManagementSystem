@@ -3,6 +3,7 @@ package com.ugurcangursen.issuemanagement.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ugurcangursen.issuemanagement.entity.Issue;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class IssueHistoryServiceImpl implements IssueHistoryService {
 
     @Override
     public List<IssueHistoryDto> getByIssueId(Long id) {
-        return Arrays.asList(modelMapper.map(issueHistoryRepository.getByIssueId(id), IssueHistoryDto[].class));
+        return Arrays.asList(modelMapper.map(issueHistoryRepository.getByIssueIdOrderById(id), IssueHistoryDto[].class));
     }
 
     @Override
@@ -58,5 +59,16 @@ public class IssueHistoryServiceImpl implements IssueHistoryService {
         return Boolean.TRUE;
     }
 
+    @Override
+    public void addHistory(Long id, Issue issueDb) {
+        IssueHistory history=new IssueHistory();
+        history.setIssue(issueDb);
+        history.setAssignee(issueDb.getAssignee());
+        history.setDate(issueDb.getDate());
+        history.setDescription(issueDb.getDescription());
+        history.setDetails(issueDb.getDetails());
+        history.setIssueStatus(issueDb.getIssueStatus());
+        issueHistoryRepository.save(history);
+    }
 
 }

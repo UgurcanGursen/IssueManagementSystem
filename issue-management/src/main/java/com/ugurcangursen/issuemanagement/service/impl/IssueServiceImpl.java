@@ -3,6 +3,10 @@ package com.ugurcangursen.issuemanagement.service.impl;
 
 import com.ugurcangursen.issuemanagement.dto.IssueDetailDto;
 import com.ugurcangursen.issuemanagement.dto.IssueHistoryDto;
+import com.ugurcangursen.issuemanagement.dto.IssueUpdateDto;
+import com.ugurcangursen.issuemanagement.entity.User;
+import com.ugurcangursen.issuemanagement.repository.ProjectRepository;
+import com.ugurcangursen.issuemanagement.repository.UserRepository;
 import com.ugurcangursen.issuemanagement.service.IssueHistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,6 +18,7 @@ import com.ugurcangursen.issuemanagement.entity.Issue;
 import com.ugurcangursen.issuemanagement.repository.IssueRepository;
 import com.ugurcangursen.issuemanagement.service.IssueService;
 import com.ugurcangursen.issuemanagement.util.TPage;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,13 +28,17 @@ import java.util.List;
 public class IssueServiceImpl implements IssueService {
 
     private final IssueRepository issueRepository;
+    private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
     private final IssueHistoryService issueHistoryService;
     private final ModelMapper modelMapper;
 
-    public IssueServiceImpl(IssueRepository issueRepository, IssueHistoryService issueHistoryService, ModelMapper modelMapper) {
+    public IssueServiceImpl(IssueRepository issueRepository,ProjectRepository projectRepository, UserRepository userRepository, IssueHistoryService issueHistoryService, ModelMapper modelMapper) {
         this.issueRepository = issueRepository;
-        this.issueHistoryService = issueHistoryService;
         this.modelMapper = modelMapper;
+        this.issueHistoryService = issueHistoryService;
+        this.userRepository =userRepository;
+        this.projectRepository=projectRepository;
     }
 
     @Override
@@ -46,6 +55,22 @@ public class IssueServiceImpl implements IssueService {
 
         issue.setId(issueEntity.getId());
         return issue;
+    }
+
+    @Transactional
+    public IssueDetailDto update(Long id, IssueUpdateDto issue) {
+        Issue issueDb = issueRepository.getOne(id);
+        User user = userRepository.getOne(issue.getAssignee_id());
+        issueHistoryService.addHistory(id,issueDb);
+
+        issueDb.setAssignee(user);
+        issueDb.setDate(issue.getDate());
+        issueDb.setDescription(issue.getDescription());
+        issueDb.setDetails(issue.getDetails());
+        issueDb.setIssueStatus(issue.getIssueStatus());
+        issueDb.setProject(projectRepository.getOne(issue.getProject_id()));
+        issueRepository.save(issueDb);
+        return getByIdWithDetails(id);
     }
 
     @Override

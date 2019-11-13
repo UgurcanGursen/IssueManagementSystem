@@ -16,7 +16,7 @@ export class ProjectComponent implements OnInit {
   modalRef: BsModalRef;
   projectForm: FormGroup;
 
-  @ViewChild('tplProjectDeleteCell', {static: true}) tplProjectDeleteCell: TemplateRef<any>;
+  @ViewChild('tplProjectDeleteCell', {static : true}) tplProjectDeleteCell: TemplateRef<any>;
 
   page = new Page();
   cols = [];

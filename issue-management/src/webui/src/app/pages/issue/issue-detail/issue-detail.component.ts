@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {IssueService} from "../../../services/shared/issue.service";
 import {ProjectService} from "../../../services/shared/project.service";
 import {UserService} from "../../../services/shared/user.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-issue-detail',
@@ -11,6 +12,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./issue-detail.component.scss']
 })
 export class IssueDetailComponent implements OnInit {
+
+  @ViewChild('tplDateCell', {static:true}) tplDateCell: TemplateRef<any>;
 
   // route parameter options
   id: number;
@@ -43,9 +46,9 @@ export class IssueDetailComponent implements OnInit {
     });
 
     this.columns = [
-      {prop: 'id', name: 'No'},
+      {prop: 'id', name: 'No', maxWidth: 40},
       {prop: 'description', name: 'Description'},
-      {prop: 'date', name: 'Issue Date'},
+      {prop: 'date', name: 'Issue Date' , cellTemplate: this.tplDateCell},
       {prop: 'issueStatus', name: 'Issue Status'},
       {prop: 'assignee.nameSurname', name: 'Assignee'},
       {prop: 'issue.project.projectName', name: 'Project Name'},
@@ -90,18 +93,23 @@ export class IssueDetailComponent implements OnInit {
       id: response['id'],
       description: response['description'],
       details: response['details'],
-      date: response['date'],
+      date: this.fromJsonDate(response['date']),
       issueStatus: response['issueStatus'],
       assignee_id: response['assignee']['id'],
       project_id: response['project']['id'],
-      project_manager: response['project']['manager']['nameSurname']
+      project_manager: response['project']['manager'] ? response['project']['manager']['nameSurname']: '',
     });
   }
 
   saveIssue(){
     this.issueService.updateIssue(this.issueDetailForm.value).subscribe(response=>{
-      console.log(response);
-      this.loadIssueDetails();
+      this.issueDetailForm = this.createIssueDetailFormGroup(response);
+      this.datatable_rows = response['issueHistories'];
     });
+  }
+
+  fromJsonDate(jDate): string {
+    const bDate: Date = new Date(jDate);
+    return bDate.toISOString().substring(0, 10);
   }
 }

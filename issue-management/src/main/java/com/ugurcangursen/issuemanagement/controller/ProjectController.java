@@ -25,6 +25,8 @@ import com.ugurcangursen.issuemanagement.util.TPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(ControllerPaths.ProjectCtrl.CTRL)
 @Api(value =ControllerPaths.ProjectCtrl.CTRL, description =  "Project APIs")
@@ -44,8 +46,16 @@ public class ProjectController {
         TPage<ProjectDto> data = projectServiceImpl.getAllPageable(pageable);
         return ResponseEntity.ok(data);
     }
-    
-    
+
+    @GetMapping()
+    @ApiOperation(value = "Get All Operation", response = ProjectDto.class , responseContainer = "List")
+    public ResponseEntity<List<ProjectDto>> getAll() {
+        List<ProjectDto> data = projectServiceImpl.getAll();
+        return ResponseEntity.ok(data);
+    }
+
+
+
     @GetMapping("/{id}")
     @ApiOperation(value = "Get By Id Opetation",response = ProjectDto.class)
     public ResponseEntity<ProjectDto> getById(@PathVariable(value = "id",required = true) Long id) {
