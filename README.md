@@ -14,3 +14,4 @@ Issue Management System is a simple project-issue management system developed us
 - MYSQL
 - Spring Rest Services
 - Swagger 2
+- Angular 8
